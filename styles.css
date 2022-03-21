@@ -14,7 +14,6 @@
     display: grid;
     height: 600px;
     width: 600px;
-    grid-template-columns: repeat(16, 1fr);
     box-shadow: 0 0 1px 3px grey;
 }
 
@@ -24,6 +23,12 @@
 
 .box:hover{
     cursor: pointer;
+}
+
+.ui-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .button{
