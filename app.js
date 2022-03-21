@@ -1,38 +1,42 @@
-const container = document.querySelector('.container');
-const wrapper = document.querySelector('.wrapper');
-const button = document.querySelector('.button');
+const DEFAULT_SIZE = 16;
 
-let createGrid = function(side){
-    grid = side * side;
-    for(let x = 0; x < grid; x++){
-        item = document.createElement("div");
-        item.className = "item";
-        wrapper.appendChild(item);
+//Make a mousedown flag so that coloring only happens when the mouse is clicked AND hovering
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true)
+document.body.onmouseup = () => (mouseDown = false)
+
+//Button EventListener
+const button = document.querySelector(".button");
+button.addEventListener("click", resetGrid);
+
+let currentColor = "grey";
+
+function changeColor(e) {
+    console.log(mouseDown);
+    console.log(e.type);
+    if(e.type === 'mouseover' && !mouseDown){return}
+    e.target.style.backgroundColor=currentColor;
+}
+
+function setupGrid(size){
+    const grid = document.querySelector(".grid");
+    for(let i = 0; i < size * size; i++){
+        const box = document.createElement("div");
+        box.className = "box";
+        grid.appendChild(box);
+
+        box.addEventListener("mouseover", changeColor);
+        box.addEventListener("click", changeColor);
     }
 }
 
-createGrid(16);
-
-let addListeners = function(){
-    const items = document.querySelectorAll(".item");
-
-    items.forEach((item)=>{
-        item.addEventListener("mouseenter", ()=>{
-            item.style.backgroundColor = "grey";
-        })
-    })
+function resetGrid(){
+    const boxes = document.querySelectorAll(".box");
+    const grid = document.querySelector(".grid");
+    boxes.forEach((box)=>{grid.removeChild(box);})
+    setupGrid(DEFAULT_SIZE);
 }
 
-addListeners();
-
-button.addEventListener("click", ()=>{
-    const items = document.querySelectorAll(".item");
-
-    items.forEach((item)=>{
-        wrapper.removeChild(item);
-    })
-    side = prompt("Enter a grid size", 16);
-    console.log(side);
-    createGrid(side);
-    addListeners();
-})
+window.onload = () =>{
+    setupGrid(DEFAULT_SIZE);
+}
