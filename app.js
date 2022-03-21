@@ -14,12 +14,22 @@ button.addEventListener("click", resetGrid);
 const sizeButton = document.querySelector("#sizeButton");
 sizeButton.addEventListener("click", resizeGrid);
 
+//Color Event Listeners
+const colors = document.querySelectorAll(".color");
+colors.forEach((color)=>{
+    color.addEventListener("click", pickColor);
+})
+
 
 function changeColor(e) {
-    console.log(mouseDown);
-    console.log(e.type);
     if(e.type === 'mouseover' && !mouseDown){return}
     e.target.style.backgroundColor=currentColor;
+}
+
+function pickColor(e){
+    console.log(e.target);
+    currentColor=e.target.getAttribute("value");
+    console.log(currentColor);
 }
 
 function setupGrid(size){
@@ -49,6 +59,9 @@ function resizeGrid(){
         const grid = document.querySelector(".grid");
         boxes.forEach((box)=>{grid.removeChild(box);})
         setupGrid(size);
+    }
+    else if(size == null){
+        alert("No change made");
     }
     else{
         alert("Size is invalid");
